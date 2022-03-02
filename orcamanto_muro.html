@@ -138,7 +138,7 @@
       var qtdDiplas = Math.ceil(qtdMantaMorter / 10)
       var totalprod = qtdMantaMorter * manta3mmDesc + qtdPlastipegante * plastipegante + qtdDiplas * diplas
       var totalMaodeObra = area_total * maoDeObra
-      var totalOrcamento = qtdMantaMorter * manta3mmAlum + qtdPlastipegante * plastipegante + totalMaodeObra
+      var totalOrcamento = qtdMantaMorter * qtdMantaMorter + qtdPlastipegante * plastipegante + qtdDiplas * diplas + totalMaodeObra
       var totalMaodeObraFprmatado = totalMaodeObra.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
       var totalProdFormatado = totalprod.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
       var totalOrcamentoFormatado = totalOrcamento.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
