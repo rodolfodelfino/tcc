@@ -16,21 +16,83 @@
   </header>
 
   <form class="formulario" onsubmit="event.preventDefault(); multiplicar();">
+    
+    <div id="container1">
+
+      <div>
+
+        <label>
+        Nome
+        <input type="text" id="nome" required>
+        </label>
+
+        <label>
+          Endereço
+          <input type="text" id="endereco" required>
+        </label>
+      </div>
+
+      <div id="local">
+        <label>
+            Telefone
+            <input type="tel" id="telefone" required>
+          </label>
+  
+          <label>
+           Cidade
+            <input type="text" id="cidade" required>
+          </label>
+          <label>
+            Estado
+            <select name="" id="estado">
+              <option value="Acre">Acre</option>
+              <option value="Alagoas">Alagoas</option>
+              <option value="Amazonas">Amazonas</option>
+              <option value="Bahia">Bahia</option>
+              <option value="Ceará">Ceará</option>
+              <option value="Distrito Federal">Distrito Federal</option>
+              <option value="Espírito Santo">Espírito Santo</option>
+              <option value="Goiás">Goiás</option>
+              <option value="Maranhão">Maranhão</option>
+              <option value="Mato Grosso">Mato Grosso</option>
+              <option value="Mato Grosso do Sul">Mato Grosso do Sul</option>
+              <option value="Minas Gerais">Minas Gerais</option>
+              <option value="Pará">Pará</option>
+              <option value="Paraná">	Paraná</option>
+              <option value="Pernambuco">Pernambuco</option>
+              <option value="Rio de Janeiro">	Rio de Janeiro</option>
+              <option value="Rio Grande do Norte">Rio Grande do Norte</option>
+              <option value="Rio Grande do Sul">Rio Grande do Sul</option>
+              <option value="Rondônia">	Rondônia</option>
+              <option value="Roraima">	Roraima</option>
+              <option value="Santa Catarina">	Santa Catarina</option>
+              <option value="São Paulo">	São Paulo</option>
+              <option value="Sergipe">	Sergipe</option>
+              <option value="Tocantins">	Tocantins</option>
+            </select>
+          </label>
+  
+        </div>
+
+        <div id="calculo">
     <label>
       Diâmetro
-      <input type="number" step="0.01" id="diametro" required>
+      <input type="number" step="0.01" id="diametro" required placeholder="Metros">
     </label>
 
     <label>
       Altura
-      <input type="number" step="0.01" id="altura" required>
+      <input type="number" step="0.01" id="altura" required placeholder="Metros">
     </label>
 
     <label for="">
       &nbsp;
-      <input class="btn" type="submit" value="Calcular">
+      <input class="btn" type="submit" value="Calcular" onclick="aparecerBotao()">
     </label>
 
+  </div>
+
+</div>
   </form>
 
   <fieldset>
@@ -43,6 +105,11 @@
     </div>
   </fieldset>
 
+  <button onclick="gerarPdf()" onsubmit="event.preventDefault();" id="botaoPdf">Salvar Orçamento</button>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"
+    integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs"
+    crossorigin="anonymous"></script>
+
 
   <script>
 
@@ -52,6 +119,15 @@
       var med2 = window.document.getElementById('altura')
       var d1 = Number(med1.value)
       var a1 = Number(med2.value)
+
+      var l1 = Number(med1.value)
+      var c1 = Number(med2.value)
+      var name = String(nome.value)
+      var tel = Number(telefone.value)
+      var end = String(endereco.value)
+      var cidade1 = String(cidade.value)
+      var est = String(estado.value)
+
       var raio = d1 / 2
       var area_total = (Math.pow( raio , 2) * 3.1416) + ( a1 * 3.1416)
 
@@ -74,6 +150,15 @@
       var med2 = window.document.getElementById('altura')
       var d1 = Number(med1.value)
       var a1 = Number(med2.value)
+
+      var l1 = Number(med1.value)
+      var c1 = Number(med2.value)
+      var name = String(nome.value)
+      var tel = Number(telefone.value)
+      var end = String(endereco.value)
+      var cidade1 = String(cidade.value)
+      var est = String(estado.value)
+
       var raio = d1 / 2
       var area_total = ((raio  * raio) * 3.14 ) + a1 * ( d1 * 3.1416)
 
@@ -103,6 +188,7 @@
       var qtdman = qtdMantaMorter.toFixed(2)
       var qtdPl = qtdPlastipegante.toFixed(2)
       var qtdDi = qtdDiplas.toFixed(2)
+      var area_total = area_total.toFixed(2)
       var totalVlManta = qtdMantaMorter * manta3mmAlum
       var totalVlPlastipegante = qtdPlastipegante * plastipegante
       var totalVlDiplas = qtdDiplas * diplas
@@ -111,7 +197,7 @@
       var totalVlDiplasform = totalVlDiplas.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
 
-      res2.innerHTML = `A área deu  Total de ${area_total} m2 </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Morterplas Alumínio 3 mm 1,10 x 7 Mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Primer Plastipegante ${totalVlPlastipeganteform}</p>  <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
+      res2.innerHTML = `<h1>ORÇAMENTO DE IMPERMEABILIZAÇÃO</h1> </p></p> Nome: ${name} </p> Endereço: ${end}</p> Cidade: ${cidade1} </p> Estado: ${est} </p> Telefone: ${tel} </p> <strong> Área Total: ${area_total} m2 </strong>  </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Morterplas Alumínio 3 mm 1,10 x 7 Mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Primer Plastipegante ${totalVlPlastipeganteform}</p>  <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
 
 
 
@@ -124,6 +210,15 @@
       var med2 = window.document.getElementById('altura')
       var d1 = Number(med1.value)
       var a1 = Number(med2.value)
+
+      var l1 = Number(med1.value)
+      var c1 = Number(med2.value)
+      var name = String(nome.value)
+      var tel = Number(telefone.value)
+      var end = String(endereco.value)
+      var cidade1 = String(cidade.value)
+      var est = String(estado.value)
+
       var raio = d1 / 2
       var area_total = ((raio  * raio) * 3.14 ) + a1 * ( d1 * 3.1416)
 
@@ -152,6 +247,7 @@
       var qtdman = qtdMantaMorter.toFixed(2)
       var qtdPl = qtdPlastipegante.toFixed(2)
       var qtdDi = qtdDiplas.toFixed(2)
+      var area_total = area_total.toFixed(2)
       var totalVlManta = qtdMantaMorter * manta3mmAlum
       var totalVlPlastipegante = qtdPlastipegante * plastipegante
       var totalVlDiplas = qtdDiplas * diplas
@@ -160,7 +256,7 @@
       var totalVlDiplasform = totalVlDiplas.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
 
-      res2.innerHTML = `A área deu  Total de ${area_total} m2 </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Alumínio Morterplas 3 mm 1,10 x 7 Mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Primer Plastipegante ${totalVlPlastipeganteform}</p>  <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
+      res2.innerHTML = `<h1>ORÇAMENTO DE IMPERMEABILIZAÇÃO</h1> </p></p> Nome: ${name} </p> Endereço: ${end}</p> Cidade: ${cidade1} </p> Estado: ${est} </p> Telefone: ${tel} </p> <strong> Área Total: ${area_total} m2 </strong>  </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Alumínio Morterplas 3 mm 1,10 x 7 Mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Primer Plastipegante ${totalVlPlastipeganteform}</p>  <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
 
 
 
@@ -171,6 +267,15 @@
       var med2 = window.document.getElementById('altura')
       var d1 = Number(med1.value)
       var a1 = Number(med2.value)
+
+      var l1 = Number(med1.value)
+      var c1 = Number(med2.value)
+      var name = String(nome.value)
+      var tel = Number(telefone.value)
+      var end = String(endereco.value)
+      var cidade1 = String(cidade.value)
+      var est = String(estado.value)
+
       var raio = d1 / 2
       var area_total = ((raio  * raio) * 3.14 ) + a1 * ( d1 * 3.1416)
 
@@ -199,6 +304,7 @@
       var qtdman = qtdMantaMorter.toFixed(2)
       var qtdPl = qtdPlastipegante.toFixed(2)
       var qtdDi = qtdDiplas.toFixed(2)
+      var area_total = area_total.toFixed(2)
       var totalVlManta = qtdMantaMorter * manta3mmAlum
       var totalVlPlastipegante = qtdPlastipegante * plastipegante
       var totalVlDiplas = qtdDiplas * diplas
@@ -207,12 +313,28 @@
       var totalVlDiplasform = totalVlDiplas.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
 
-      res2.innerHTML = `A área deu  Total de ${area_total} m2 </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Alumínio Morterplas 3 mm 1,10 x 7 Mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Primer Plastipegante ${totalVlPlastipeganteform}</p>  <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
+      res2.innerHTML = `<h1>ORÇAMENTO DE IMPERMEABILIZAÇÃO</h1> </p></p> Nome: ${name} </p> Endereço: ${end}</p> Cidade: ${cidade1} </p> Estado: ${est} </p> Telefone: ${tel} </p> <strong> Área Total: ${area_total} m2 </strong>  </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Alumínio Morterplas 3 mm 1,10 x 7 Mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Primer Plastipegante ${totalVlPlastipeganteform}</p>  <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
 
 
 
 
     }
+
+    function gerarPdf() {
+      var conteudo = document.getElementById('res2').innerText
+      var doc = new jsPDF()
+      doc.text(conteudo, 5, 15)
+      doc.save('orçamento.pdf')
+
+
+    }
+
+    function aparecerBotao(){
+      var square = document.getElementById("botaoPdf");
+      square.style.display = "block";
+    }
+
+
   </script>
 </body>
 

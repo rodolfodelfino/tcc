@@ -16,28 +16,95 @@
   </header>
 
   <form class="formulario" onsubmit="event.preventDefault(); multiplicar();">
-    <label>
-      Largura
-      <input type="number" step="0.01" id="largura2" required>
-    </label>
+    <div id="container1">
 
-    <label>
-      Comprimento
-      <input type="number" step="0.01" id="comprimento2" required>
-    </label>
+      <div>
 
-    <label>
-      Tipo
-      <select name="" id="tipo">
-        <option value="exposta">Exposta</option>
-        <option value="protegida">Protegida</option>
-      </select>
-    </label>
+        <label>
+        Nome
+        <input type="text" id="nome" required>
+        </label>
 
-    <label for="">
-      &nbsp;
-      <input class="btn" type="submit" value="Calcular">
-    </label>
+        <label>
+          Endereço
+          <input type="text" id="endereco" required>
+        </label>
+      </div>
+        
+      <div id="local">
+      <label>
+          Telefone
+          <input type="tel" id="telefone" required>
+        </label>
+
+        <label>
+         Cidade
+          <input type="text" id="cidade" required>
+        </label>
+
+        <label>
+          Estado
+          <select name="" id="estado">
+            <option value="Acre">Acre</option>
+            <option value="Alagoas">Alagoas</option>
+            <option value="Amazonas">Amazonas</option>
+            <option value="Bahia">Bahia</option>
+            <option value="Ceará">Ceará</option>
+            <option value="Distrito Federal">Distrito Federal</option>
+            <option value="Espírito Santo">Espírito Santo</option>
+            <option value="Goiás">Goiás</option>
+            <option value="Maranhão">Maranhão</option>
+            <option value="Mato Grosso">Mato Grosso</option>
+            <option value="Mato Grosso do Sul">Mato Grosso do Sul</option>
+            <option value="Minas Gerais">Minas Gerais</option>
+            <option value="Pará">Pará</option>
+            <option value="Paraná">	Paraná</option>
+            <option value="Pernambuco">Pernambuco</option>
+            <option value="Rio de Janeiro">	Rio de Janeiro</option>
+            <option value="Rio Grande do Norte">Rio Grande do Norte</option>
+            <option value="Rio Grande do Sul">Rio Grande do Sul</option>
+            <option value="Rondônia">	Rondônia</option>
+            <option value="Roraima">	Roraima</option>
+            <option value="Santa Catarina">	Santa Catarina</option>
+            <option value="São Paulo">	São Paulo</option>
+            <option value="Sergipe">	Sergipe</option>
+            <option value="Tocantins">	Tocantins</option>
+          </select>
+        </label>
+
+      </div>
+
+   
+
+
+    <div id="calculo">
+      
+      <label>
+        Largura
+        <input type="number" step="0.01" id="largura2" required placeholder="Metros">
+      </label>
+
+      <label>
+        Comprimento
+        <input type="number" step="0.01" id="comprimento2" required placeholder="Metros">
+      </label>
+
+      <label>
+        Tipo
+        <select name="" id="tipo">
+          <option value="exposta">Exposta</option>
+          <option value="protegida">Protegida</option>
+        </select>
+      </label>
+
+      <label for="">
+        &nbsp;
+        <input class="btn" type="submit" value="Calcular" onclick="aparecerBotao()">
+      </label>
+    </div>
+
+    </div>
+  </div>
 
   </form>
 
@@ -51,8 +118,19 @@
     </div>
   </fieldset>
 
+  <button onclick="gerarPdf()" onsubmit="event.preventDefault();" id="botaoPdf">Salvar Orçamento</button>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"
+    integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs"
+    crossorigin="anonymous"></script>
 
   <script>
+    // var cidade = window.document.getElementById('cidade')
+    // var cidade = window.document.getElementById('endereco')
+    // var cidade = window.document.getElementById('estado')
+    // var cidade = window.document.getElementById('telefone')
+   
+  
+   
 
 
     function multiplicar() {
@@ -63,26 +141,26 @@
       var c1 = Number(med2.value)
       var area_total = l1 * c1
 
-      if(tipo.value == "exposta"){
-        if(area_total <= 20){
+      if (tipo.value == "exposta") {
+        if (area_total <= 20) {
           multiplicar20MenosExposta();
         }
-        if(area_total > 20 && area_total < 50){
+        if (area_total > 20 && area_total < 50) {
           multiplicar50MenosExposta();
         }
-        if(area_total >= 50){
+        if (area_total >= 50) {
           multiplicar50MaisExposta();
         }
       }
 
-      if(tipo.value == "protegida"){
-        if(area_total <= 20){
+      if (tipo.value == "protegida") {
+        if (area_total <= 20) {
           multiplicar20MenosProtegida();
         }
-        if(area_total > 20 && area_total < 50){
+        if (area_total > 20 && area_total < 50) {
           multiplicar50MenosProtegida();
         }
-        if(area_total >= 50){
+        if (area_total >= 50) {
           multiplicar50MaisProtegida();
         }
       }
@@ -96,6 +174,15 @@
       var med2 = window.document.getElementById('comprimento2')
       var l1 = Number(med1.value)
       var c1 = Number(med2.value)
+
+      var l1 = Number(med1.value)
+      var c1 = Number(med2.value)
+      var name = String(nome.value)
+      var tel = Number(telefone.value)
+      var end = String(endereco.value)
+      var cidade1 = String(cidade.value)
+      var est = String(estado.value)
+
       var area_total = l1 * c1
 
 
@@ -110,8 +197,8 @@
 
 
 
-     // Área com manta 3mm Desc
-     var qtdMantaMorter = (area_total * 1.10 / 7)
+      // Área com manta 3mm Desc
+      var qtdMantaMorter = (area_total * 1.10 / 7)
       var qtdPlastipegante = qtdMantaMorter / 10
       var qtdDiplas = qtdMantaMorter / 10
       var totalprod = qtdMantaMorter * manta3mmDesc + qtdPlastipegante * plastipegante + qtdDiplas * diplas
@@ -123,6 +210,7 @@
       var qtdman = qtdMantaMorter.toFixed(2)
       var qtdPl = qtdPlastipegante.toFixed(2)
       var qtdDi = qtdDiplas.toFixed(2)
+      var area_total = area_total.toFixed(2)
       var totalVlManta = qtdMantaMorter * manta3mmDesc
       var totalVlPlastipegante = qtdPlastipegante * plastipegante
       var totalVlDiplas = qtdDiplas * diplas
@@ -131,7 +219,7 @@
       var totalVlDiplasform = totalVlDiplas.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
 
-      res2.innerHTML = `A área deu  Total de ${area_total} m2 </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Morteplas 3 mm 1,10 x 7 Mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Plastipegante ${totalVlPlastipeganteform}</p> <p> ${qtdDi} Sacos de Argamassa Extra Forte Diplas ${totalVlDiplasform} </p> <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
+      res2.innerHTML = `<h1>ORÇAMENTO DE IMPERMEABILIZAÇÃO</h1> </p></p> Nome: ${name} </p> Endereço: ${end}</p> Cidade: ${cidade1} </p> Estado: ${est} </p> Telefone: ${tel} </p> <strong> Área Total: ${area_total} m2 </strong>  </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Morteplas 3 mm 1,10 x 7 Mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Plastipegante ${totalVlPlastipeganteform}</p> <p> ${qtdDi} Sacos de Argamassa Extra Forte Diplas ${totalVlDiplasform} </p> <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
 
 
 
@@ -142,12 +230,22 @@
     function multiplicar50MenosExposta() {
       var med1 = window.document.getElementById('largura2')
       var med2 = window.document.getElementById('comprimento2')
+      
       var l1 = Number(med1.value)
       var c1 = Number(med2.value)
+      var name = String(nome.value)
+      var tel = Number(telefone.value)
+      var end = String(endereco.value)
+      var cidade1 = String(cidade.value)
+      var est = String(estado.value)
+      
+      
       var area_total = l1 * c1
+      
+      
 
 
-     const manta3mmDesc = 557
+      const manta3mmDesc = 557
       const manta3mmAlum = 624
       const manta2mmMorpl = 641
       const plastipegante = 412
@@ -158,11 +256,11 @@
 
 
 
-     // Área com manta 3mm Desc
-     var qtdMantaMorter = (area_total * 1.15 / 7)
+      // Área com manta 3mm Desc
+      var qtdMantaMorter = (area_total * 1.15 / 7)
       var qtdPlastipegante = qtdMantaMorter / 10
       var qtdDiplas = qtdMantaMorter / 10
-      var totalprod = qtdMantaMorter * manta3mmAlum + qtdPlastipegante * plastipegante 
+      var totalprod = qtdMantaMorter * manta3mmAlum + qtdPlastipegante * plastipegante
       var totalMaodeObra = area_total * maoDeObra
       var totalOrcamento = totalprod + totalMaodeObra
       var totalMaodeObraFprmatado = totalMaodeObra.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -171,6 +269,7 @@
       var qtdman = qtdMantaMorter.toFixed(2)
       var qtdPl = qtdPlastipegante.toFixed(2)
       var qtdDi = qtdDiplas.toFixed(2)
+      var area_total = area_total.toFixed(2)
       var totalVlManta = qtdMantaMorter * manta3mmAlum
       var totalVlPlastipegante = qtdPlastipegante * plastipegante
       var totalVlDiplas = qtdDiplas * diplas
@@ -179,7 +278,7 @@
       var totalVlDiplasform = totalVlDiplas.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
 
-      res2.innerHTML = `A área deu  Total de ${area_total} m2 </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Morterplas Alumínio 3 mm 1,10 x 7 mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Primer Plastipegante ${totalVlPlastipeganteform}</p>  <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
+      res2.innerHTML = `<h1>ORÇAMENTO DE IMPERMEABILIZAÇÃO</h1> </p></p> Nome: ${name} </p> Endereço: ${end}</p> Cidade: ${cidade1} </p> Estado: ${est} </p> Telefone: ${tel} </p>  <strong> Área Total: ${area_total} m2 </strong>  </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Morterplas Alumínio 3 mm 1,10 x 7 mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Primer Plastipegante ${totalVlPlastipeganteform}</p>  <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
 
 
 
@@ -192,10 +291,19 @@
       var med2 = window.document.getElementById('comprimento2')
       var l1 = Number(med1.value)
       var c1 = Number(med2.value)
+
+      var l1 = Number(med1.value)
+      var c1 = Number(med2.value)
+      var name = String(nome.value)
+      var tel = Number(telefone.value)
+      var end = String(endereco.value)
+      var cidade1 = String(cidade.value)
+      var est = String(estado.value)
+
       var area_total = l1 * c1
 
 
-    const manta3mmDesc = 557
+      const manta3mmDesc = 557
       const manta3mmAlum = 624
       const manta2mmMorpl = 641
       const plastipegante = 412
@@ -206,11 +314,11 @@
 
 
 
-     // Área com manta 3mm Desc
-     var qtdMantaMorter = (area_total * 1.15 / 7)
+      // Área com manta 3mm Desc
+      var qtdMantaMorter = (area_total * 1.15 / 7)
       var qtdPlastipegante = qtdMantaMorter / 10
       var qtdDiplas = qtdMantaMorter / 10
-      var totalprod = qtdMantaMorter * manta3mmAlum + qtdPlastipegante * plastipegante 
+      var totalprod = qtdMantaMorter * manta3mmAlum + qtdPlastipegante * plastipegante
       var totalMaodeObra = maoDeObra
       var totalOrcamento = totalprod + totalMaodeObra
       var totalMaodeObraFprmatado = totalMaodeObra.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -219,6 +327,7 @@
       var qtdman = qtdMantaMorter.toFixed(2)
       var qtdPl = qtdPlastipegante.toFixed(2)
       var qtdDi = qtdDiplas.toFixed(2)
+      var area_total = area_total.toFixed(2)
       var totalVlManta = qtdMantaMorter * manta3mmAlum
       var totalVlPlastipegante = qtdPlastipegante * plastipegante
       var totalVlDiplas = qtdDiplas * diplas
@@ -227,7 +336,7 @@
       var totalVlDiplasform = totalVlDiplas.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
 
-      res2.innerHTML = `A área deu  Total de ${area_total} m2 </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Morterplas Alumínio 3 mm 1,10 x 7 mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Primer Plastipegante ${totalVlPlastipeganteform}</p>  <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
+      res2.innerHTML = `<h1>ORÇAMENTO DE IMPERMEABILIZAÇÃO</h1> </p></p> Nome: ${name} </p> Endereço: ${end}</p> Cidade: ${cidade1} </p> Estado: ${est} </p> Telefone: ${tel} </p>  <strong> Área Total: ${area_total} m2 </strong>  </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Morterplas Alumínio 3 mm 1,10 x 7 mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Primer Plastipegante ${totalVlPlastipeganteform}</p>  <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
 
 
 
@@ -238,9 +347,17 @@
       var med2 = window.document.getElementById('comprimento2')
       var l1 = Number(med1.value)
       var c1 = Number(med2.value)
+      var l1 = Number(med1.value)
+      var c1 = Number(med2.value)
+      var name = String(nome.value)
+      var tel = Number(telefone.value)
+      var end = String(endereco.value)
+      var cidade1 = String(cidade.value)
+      var est = String(estado.value)
+
       var area_total = l1 * c1
 
-     const manta3mmDesc = 376.16
+      const manta3mmDesc = 376.16
       const manta3mmAlum = 422.43
       const manta2mmMorpl = 435.50
       const plastipegante = 279.73
@@ -253,7 +370,7 @@
       // Área com manta 3mm Desc
       var qtdMantaMorter = Math.ceil(area_total * 1.10 / 7)
       var qtdPlastipegante = Math.ceil(qtdMantaMorter / 10)
-      var qtdDiplas = Math.ceil (qtdMantaMorter / 10)
+      var qtdDiplas = Math.ceil(qtdMantaMorter / 10)
       var totalprod = qtdMantaMorter * manta3mmDesc + qtdPlastipegante * plastipegante + qtdDiplas * diplas
       var totalMaodeObra = area_total * maoDeObra
       var totalOrcamento = totalprod + totalMaodeObra
@@ -263,6 +380,7 @@
       var qtdman = qtdMantaMorter.toFixed(2)
       var qtdPl = qtdPlastipegante.toFixed(2)
       var qtdDi = qtdDiplas.toFixed(2)
+      var area_total = area_total.toFixed(2)
       var totalVlManta = qtdMantaMorter * manta3mmDesc
       var totalVlPlastipegante = qtdPlastipegante * plastipegante
       var totalVlDiplas = qtdDiplas * diplas
@@ -271,7 +389,7 @@
       var totalVlDiplasform = totalVlDiplas.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
 
-      res2.innerHTML = `A área deu  Total de ${area_total} m2 </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Morteplas 3 mm 1,10 x 7 Mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Primer Plastipegante ${totalVlPlastipeganteform}</p> <p> ${qtdDi} Sacos de Argamassa Extra Forte Diplas ${totalVlDiplasform} </p> <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
+      res2.innerHTML = `<h1>ORÇAMENTO DE IMPERMEABILIZAÇÃO</h1> </p></p> Nome: ${name} </p> Endereço: ${end}</p> Cidade: ${cidade1} </p> Estado: ${est} </p> Telefone: ${tel} </p> <strong> Área Total: ${area_total} m2 </strong> </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Morteplas 3 mm 1,10 x 7 Mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Primer Plastipegante ${totalVlPlastipeganteform}</p> <p> ${qtdDi} Sacos de Argamassa Extra Forte Diplas ${totalVlDiplasform} </p> <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
 
 
 
@@ -282,6 +400,15 @@
       var med2 = window.document.getElementById('comprimento2')
       var l1 = Number(med1.value)
       var c1 = Number(med2.value)
+
+      var l1 = Number(med1.value)
+      var c1 = Number(med2.value)
+      var name = String(nome.value)
+      var tel = Number(telefone.value)
+      var end = String(endereco.value)
+      var cidade1 = String(cidade.value)
+      var est = String(estado.value)
+
       var area_total = l1 * c1
 
       const manta3mmDesc = 376.16
@@ -297,8 +424,8 @@
       // Área com manta 3mm Desc
       var qtdMantaMorter = Math.ceil(area_total * 1.15 / 7)
       var qtdPlastipegante = Math.ceil(qtdMantaMorter / 10)
-      var qtdDiplas = Math.ceil (qtdMantaMorter / 10)
-      var totalprod = qtdMantaMorter * manta3mmAlum + qtdPlastipegante * plastipegante 
+      var qtdDiplas = Math.ceil(qtdMantaMorter / 10)
+      var totalprod = qtdMantaMorter * manta3mmAlum + qtdPlastipegante * plastipegante
       var totalMaodeObra = area_total * maoDeObra
       var totalOrcamento = totalprod + totalMaodeObra
       var totalMaodeObraFprmatado = totalMaodeObra.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -307,6 +434,7 @@
       var qtdman = qtdMantaMorter.toFixed(2)
       var qtdPl = qtdPlastipegante.toFixed(2)
       var qtdDi = qtdDiplas.toFixed(2)
+      var area_total = area_total.toFixed(2)
       var totalVlManta = qtdMantaMorter * manta3mmAlum
       var totalVlPlastipegante = qtdPlastipegante * plastipegante
       var totalVlDiplas = qtdDiplas * diplas
@@ -315,7 +443,7 @@
       var totalVlDiplasform = totalVlDiplas.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
 
-      res2.innerHTML = `A área deu  Total de ${area_total} m2 </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Morterplas Alumínio 3 mm 1 x 7 mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Primer Plastipegante ${totalVlPlastipeganteform}</p>  <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
+      res2.innerHTML = `<h1>ORÇAMENTO DE IMPERMEABILIZAÇÃO</h1> </p></p> Nome: ${name} </p> Endereço: ${end}</p> Cidade: ${cidade1} </p> Estado: ${est} </p> Telefone: ${tel} </p> <strong> Área Total: ${area_total} m2 </strong> </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Morterplas Alumínio 3 mm 1 x 7 mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Primer Plastipegante ${totalVlPlastipeganteform}</p>  <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
 
 
 
@@ -326,7 +454,18 @@
       var med2 = window.document.getElementById('comprimento2')
       var l1 = Number(med1.value)
       var c1 = Number(med2.value)
+
+      var l1 = Number(med1.value)
+      var c1 = Number(med2.value)
+      var name = String(nome.value)
+      var tel = Number(telefone.value)
+      var end = String(endereco.value)
+      var cidade1 = String(cidade.value)
+      var est = String(estado.value)
+      
       var area_total = l1 * c1
+
+      
 
 
       const manta3mmDesc = 557
@@ -340,8 +479,8 @@
 
 
 
-     // Área com manta 3mm Desc
-     var qtdMantaMorter = (area_total * 1.10 / 7)
+      // Área com manta 3mm Desc
+      var qtdMantaMorter = (area_total * 1.10 / 7)
       var qtdPlastipegante = qtdMantaMorter / 10
       var qtdDiplas = qtdMantaMorter / 10
       var totalprod = qtdMantaMorter * manta3mmDesc + qtdPlastipegante * plastipegante + qtdDiplas * diplas
@@ -353,6 +492,7 @@
       var qtdman = qtdMantaMorter.toFixed(2)
       var qtdPl = qtdPlastipegante.toFixed(2)
       var qtdDi = qtdDiplas.toFixed(2)
+      var area_total = area_total.toFixed(2)
       var totalVlManta = qtdMantaMorter * manta3mmDesc
       var totalVlPlastipegante = qtdPlastipegante * plastipegante
       var totalVlDiplas = qtdDiplas * diplas
@@ -361,11 +501,28 @@
       var totalVlDiplasform = totalVlDiplas.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
 
-      res2.innerHTML = `A área deu  Total de ${area_total} m2 </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Morterplas 3 mm 1,10 x 7 mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Primer Plastipegante ${totalVlPlastipeganteform}</p> <p> ${qtdDi} Sacos de Argamassa Extra Forte Diplas ${totalVlDiplasform} </p> <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
+      res2.innerHTML = `<h1>ORÇAMENTO DE IMPERMEABILIZAÇÃO</h1> </p></p> Nome: ${name} </p> Endereço: ${end}</p> Cidade: ${cidade1} </p> Estado: ${est} </p> Telefone: ${tel} </p> <strong> Área Total: ${area_total} m2 </strong> </p> <p> Irá utilizar: </p> ${qtdman} rolos de Manta Asfáltica Morterplas 3 mm 1,10 x 7 mts ${totalVlMantaform}</p> <p> ${qtdPl} baldes de Primer Plastipegante ${totalVlPlastipeganteform}</p> <p> ${qtdDi} Sacos de Argamassa Extra Forte Diplas ${totalVlDiplasform} </p> <p> Total de produtos  ${totalProdFormatado} </p> <p>Mão de obra ${totalMaodeObraFprmatado}</p> Total de ${totalOrcamentoFormatado}</p>`
 
 
 
     }
+
+    function gerarPdf() {
+      var conteudo = document.getElementById('res2').innerText
+      var doc = new jsPDF()
+      doc.text(conteudo, 5, 15)
+      doc.save('orçamento.pdf')
+
+
+    }
+
+    function aparecerBotao(){
+      var square = document.getElementById("botaoPdf");
+      square.style.display = "block";
+    }
+
+
+    
   </script>
 </body>
 
